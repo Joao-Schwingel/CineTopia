@@ -1,38 +1,40 @@
-import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
-import MovieCard from "../components/MovieCard"
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
 
-import "./MovieGrid.css"
-
-const searchURL = import.meta.env.VITE_SEARCH
+const searchURL = import.meta.env.VITE_SEARCH;
 const apiKey = import.meta.env.VITE_API_KEY;
 
+import "./MovieGrid.css";
+
 const Search = () => {
-    const [searchParams] = useSearchParams ();
-    const [movie, setMovie] = useState([]);
-    const query = searchParams.get("q");
-    
-    const getSearchedMovies = async (url) => {
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        setMovie(data.results);
-    }
+  const [searchParams] = useSearchParams();
 
-    useEffect(() => {
-        const searchWithQueryUrl = `${searchURL}?${apiKey}&query=${query}`;
+  const [movies, setMovies] = useState([]);
+  const query = searchParams.get("q");
 
-        getSearchedMovies(searchWithQueryUrl)
-    }, [])
+  const getSearchedMovies = async (url) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    setMovies(data.results);
+  };
 
-    
-    return(
-        <div className="container">
-            <h2 className="title">Resultador para: <span className="query-text">{query}</span></h2>
-            <div className="movies-container">
-                {movie.length === 0 && <p>Carregando...</p>}
-                {movie.length > 0 && movie.map((movie) => <MovieCard key={movie.id} movie={movie} />)}</div>
-        </div>    )
-}
+  useEffect(() => {
+    const searchWithQueryURL = `${searchURL}?${apiKey}&query=${query}`;
+    getSearchedMovies(searchWithQueryURL);
+  }, [query]);
 
-export default Search
+  return (
+    <div className="container">
+      <h2 className="title">
+        Resultados para: <span className="query-text">{query}</span>
+      </h2>
+      <div className="movies-container">
+        {movies.length > 0 &&
+          movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+      </div>
+    </div>
+  );
+};
+
+export default Search;

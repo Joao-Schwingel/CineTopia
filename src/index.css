@@ -5,17 +5,16 @@
   box-sizing: border-box;
 }
 
-body{
+body {
   background-color: #000;
-  color: #fff
 }
 
-a{
+a {
   text-decoration: none;
   color: #f7d354;
-  transition: 0.5;
+  transition: 0.5s;
 }
 
-a:hover{
+a:hover {
   color: #b8930c;
 }
